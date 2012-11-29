@@ -17,7 +17,7 @@ Add this to your composer.json
 ```json
 {
     "require": {
-        "devster/ubench": "1.0.*"
+        "devster/ubench": "1.0.*-dev"
     }
 }
 ```
