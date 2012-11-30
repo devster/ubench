@@ -54,26 +54,32 @@ class Ubench
      * Returns the elapsed time, readable or not
      *
      * @param  boolean $readable Whether the result must be human readable
+     * @param  string  $format   The format to display (printf format)
      * @return string|float
      */
-    public function getTime($readable = true)
+    public function getTime($raw = false, $format = null)
     {
         $elapsed = $this->end_time - $this->start_time;
 
-        return $readable ? self::readableElapsedTime($elapsed) : $elapsed;
+        $format = $format ?: '%.3f%s';
+
+        return $raw ? $elapsed : self::readableElapsedTime($elapsed, $format);
     }
 
     /**
      * Returns the memory peak, readable or not
      *
      * @param  boolean $readable Whether the result must be human readable
+     * @param  string  $format   The format to display (printf format)
      * @return string|float
      */
-    public function getMemoryPeak($readable = true)
+    public function getMemoryPeak($raw = false, $format = null)
     {
         $memory = memory_get_peak_usage(true);
 
-        return $readable ? self::readableSize($memory) : $memory;
+        $format = $format ?: '%.2f%s';
+
+        return $raw ? $memory : self::readableSize($memory, $format);
     }
 
     /**
@@ -84,9 +90,10 @@ class Ubench
      * @version     0.3
      * @link        http://www.jonasjohn.de/snippets/php/readable-filesize.htm
      * @param   int $size
+     * @param   string $format   The format to display (printf format)
      * @return  string
      */
-    public static function readableSize($size)
+    public static function readableSize($size, $format)
     {
         $mod = 1024;
 
@@ -96,22 +103,26 @@ class Ubench
             $size /= $mod;
         }
 
-        return round($size, 2).$units[$i];
+        return sprintf($format, round($size, 3), $units[$i]);
     }
 
     /**
      * Returns a human readable elapsed time
      *
      * @param  float $microtime
+     * @param  string  $format   The format to display (printf format)
      * @return string
      */
-    public static function readableElapsedTime($microtime)
+    public static function readableElapsedTime($microtime, $format)
     {
         if ($microtime >= 1) {
-            return round($microtime, 3).'s';
+            $unit = 's';
+            $time = round($microtime, 3);
         } else {
-            return round($microtime*1000).'ms';
+            $unit = 'ms';
+            $time = round($microtime*1000);
         }
 
+        return sprintf($format, $time, $unit);
     }
 }

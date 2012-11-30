@@ -11,8 +11,8 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
     public function sizeProvider()
     {
         return array(
-            array('90B', 90),
-            array('1.46Kb', 1500),
+            array('90.00B', 90),
+            array('1.47Kb', 1500),
             array('9.54Mb', 10000000),
         );
     }
@@ -22,13 +22,13 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
      */
     public function testreadableSize($expected, $size)
     {
-        $this->assertEquals($expected, Ubench::readableSize($size));
+        $this->assertEquals($expected, Ubench::readableSize($size, '%.2f%s'));
     }
 
     public function timeProvider()
     {
         return array(
-            array('900ms', 0.9004213),
+            array('900.000ms', 0.9004213),
             array('1.156s', 1.1557845),
         );
     }
@@ -38,7 +38,7 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
      */
     public function testreadableElapsedTime($expected, $time)
     {
-        $this->assertEquals($expected, Ubench::readableElapsedTime($time));
+        $this->assertEquals($expected, Ubench::readableElapsedTime($time, '%.3f%s'));
     }
 
     public function testGetTime()
@@ -47,7 +47,7 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
         $bench->start();
         $bench->end();
 
-        $this->assertRegExp('/^[0-9]+ms/', $bench->getTime());
+        $this->assertRegExp('/^[0-9.]+ms/', $bench->getTime());
 
         $bench = new Ubench;
         $bench->start();
@@ -55,6 +55,8 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
         $bench->end();
 
         $this->assertRegExp('/^[0-9.]+s/', $bench->getTime());
+        $this->assertInternalType('float', $bench->getTime(true));
+        $this->assertRegExp('/^[0-9]+s/', $bench->getTime(false, '%d%s'));
     }
 
     public function testGetMemoryPeak()
@@ -62,5 +64,7 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
         $bench = new Ubench;
 
         $this->assertRegExp('/^[0-9.]+Mb/', $bench->getMemoryPeak());
+        $this->assertInternalType('integer', $bench->getMemoryPeak(true));
+        $this->assertRegExp('/^[0-9]+Mb/', $bench->getMemoryPeak(false, '%d%s'));
     }
 }
