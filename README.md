@@ -37,11 +37,13 @@ $bench->start();
 $bench->end();
 
 // Get elapsed time and memory
-echo $bench->getTime(); // 156ms or 1.123s
-echo $bench->getTime(false); // elapsed microtime in float
+echo $bench->getTime(); // 156.00ms or 1.123s
+echo $bench->getTime(true); // elapsed microtime in float
+echo $bench->getTime(false, '%d%s'); // 156ms or 1s
 
 echo $bench->getMemoryPeak(); // 90Kb or 15.23Mb
-echo $bench->getMemoryPeak(false); // memory peak in bytes
+echo $bench->getMemoryPeak(true); // memory peak in bytes
+echo $bench->getTime(false, '%.3f%s'); // 90.152Kb or 15.234Mb
 ```
 
 License
