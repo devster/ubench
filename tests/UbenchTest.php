@@ -1,17 +1,13 @@
 <?php
 
-namespace Ubench\Test;
-
-use Ubench\Ubench;
-
-require __DIR__.'/../../src/Ubench/Ubench.php';
+require __DIR__.'/../src/Ubench.php';
 
 class UbenchTest extends \PHPUnit_Framework_TestCase
 {
     public function sizeProvider()
     {
         return array(
-            array('90.00B', 90),
+            array('90B', 90),
             array('1.47Kb', 1500),
             array('9.54Mb', 10000000),
         );
@@ -28,7 +24,7 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
     public function timeProvider()
     {
         return array(
-            array('900.000ms', 0.9004213),
+            array('900ms', 0.9004213),
             array('1.156s', 1.1557845),
         );
     }
@@ -57,6 +53,17 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/^[0-9.]+s/', $bench->getTime());
         $this->assertInternalType('float', $bench->getTime(true));
         $this->assertRegExp('/^[0-9]+s/', $bench->getTime(false, '%d%s'));
+    }
+
+    public function testGetMemoryUsage()
+    {
+        $bench = new Ubench;
+        $bench->start();
+        $bench->end();
+
+        $this->assertRegExp('/^[0-9.]+Mb/', $bench->getMemoryUsage());
+        $this->assertInternalType('integer', $bench->getMemoryUsage(true));
+        $this->assertRegExp('/^[0-9]+Mb/', $bench->getMemoryUsage(false, '%d%s'));
     }
 
     public function testGetMemoryPeak()

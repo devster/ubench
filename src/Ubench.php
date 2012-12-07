@@ -22,13 +22,13 @@
  * THE SOFTWARE.
  */
 
-namespace Ubench;
-
 class Ubench
 {
     protected $start_time;
 
     protected $end_time;
+
+    protected $memory_usage;
 
     /**
      * Sets start microtime
@@ -48,6 +48,7 @@ class Ubench
     public function end()
     {
         $this->end_time = microtime(true);
+        $this->memory_usage = memory_get_usage(true);
     }
 
     /**
@@ -61,9 +62,19 @@ class Ubench
     {
         $elapsed = $this->end_time - $this->start_time;
 
-        $format = $format ?: '%.3f%s';
-
         return $raw ? $elapsed : self::readableElapsedTime($elapsed, $format);
+    }
+
+    /**
+     * Returns the memory usage at the end checkpoint
+     *
+     * @param  boolean $readable Whether the result must be human readable
+     * @param  string  $format   The format to display (printf format)
+     * @return string|float
+     */
+    public function getMemoryUsage($raw = false, $format = null)
+    {
+        return $raw ? $this->memory_usage : self::readableSize($this->memory_usage, $format);
     }
 
     /**
@@ -77,25 +88,24 @@ class Ubench
     {
         $memory = memory_get_peak_usage(true);
 
-        $format = $format ?: '%.2f%s';
-
         return $raw ? $memory : self::readableSize($memory, $format);
     }
 
     /**
      * Returns a human readable memory size
      *
-     * @author      wesman20 (php.net)
-     * @author      Jonas John
-     * @version     0.3
-     * @link        http://www.jonasjohn.de/snippets/php/readable-filesize.htm
-     * @param   int $size
+     * @param   int    $size
      * @param   string $format   The format to display (printf format)
+     * @param   int    $round
      * @return  string
      */
-    public static function readableSize($size, $format)
+    public static function readableSize($size, $format = null, $round = 3)
     {
         $mod = 1024;
+
+        if (is_null($format)) {
+            $format = '%.2f%s';
+        }
 
         $units = explode(' ','B Kb Mb Gb Tb');
 
@@ -103,7 +113,11 @@ class Ubench
             $size /= $mod;
         }
 
-        return sprintf($format, round($size, 3), $units[$i]);
+        if (0 === $i) {
+            $format = preg_replace('/(%.[\d]+f)/', '%d', $format);
+        }
+
+        return sprintf($format, round($size, $round), $units[$i]);
     }
 
     /**
@@ -113,14 +127,20 @@ class Ubench
      * @param  string  $format   The format to display (printf format)
      * @return string
      */
-    public static function readableElapsedTime($microtime, $format)
+    public static function readableElapsedTime($microtime, $format = null, $round = 3)
     {
+        if (is_null($format)) {
+            $format = '%.2f%s';
+        }
+
         if ($microtime >= 1) {
             $unit = 's';
-            $time = round($microtime, 3);
+            $time = round($microtime, $round);
         } else {
             $unit = 'ms';
             $time = round($microtime*1000);
+
+            $format = preg_replace('/(%.[\d]+f)/', '%d', $format);
         }
 
         return sprintf($format, $time, $unit);

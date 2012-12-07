@@ -12,7 +12,7 @@
 >
     <testsuites>
         <testsuite name="Ubench Test Suite">
-            <directory>./tests/Ubench/</directory>
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
