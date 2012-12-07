@@ -130,7 +130,7 @@ class Ubench
     public static function readableElapsedTime($microtime, $format = null, $round = 3)
     {
         if (is_null($format)) {
-            $format = '%.2f%s';
+            $format = '%.3f%s';
         }
 
         if ($microtime >= 1) {
