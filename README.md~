@@ -26,7 +26,7 @@ Usage
 -----
 
 ```php
-require_once 'src/Ubench.php';
+require_once 'Ubench.php';
 
 $bench = new Ubench;
 
