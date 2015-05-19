@@ -74,4 +74,26 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('integer', $bench->getMemoryPeak(true));
         $this->assertRegExp('/^[0-9]+Mb/', $bench->getMemoryPeak(false, '%d%s'));
     }
+
+    public function testCallableWithoutArguments()
+    {
+        $bench = new Ubench();
+        $result = $bench->run(function () { return true; });
+
+        $this->assertTrue($result);
+        $this->assertNotNull($bench->getTime());
+        $this->assertNotNull($bench->getMemoryUsage());
+        $this->assertNotNull($bench->getMemoryPeak());
+    }
+
+    public function testCallableWithArguments()
+    {
+        $bench = new Ubench();
+        $result = $bench->run(function ($one, $two) { return $one + $two; }, 1, 2);
+
+        $this->assertEquals(3, $result);
+        $this->assertNotNull($bench->getTime());
+        $this->assertNotNull($bench->getMemoryUsage());
+        $this->assertNotNull($bench->getMemoryPeak());
+    }
 }

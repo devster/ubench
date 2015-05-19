@@ -47,6 +47,13 @@ echo $bench->getMemoryPeak(false, '%.3f%s'); // 152B or 90.152Kb or 15.234Mb
 
 // Returns the memory usage at the end mark
 echo $bench->getMemoryUsage(); // 152B or 90.00Kb or 15.23Mb
+
+// Runs `Ubench::start()` and `Ubench::end()` around a callable
+// Accepts a callable as the first parameter.  Any additional parameters will be passed to the callable.
+$result = $bench->run(function ($x) {
+    return $x;
+}, 1);
+echo $bench->getTime();
 ```
 
 License
