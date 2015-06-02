@@ -92,6 +92,27 @@ class Ubench
     }
 
     /**
+     * Wraps a callable with start() and end() calls
+     *
+     * Additional arguments passed to this method will be passed to
+     * the callable.
+     *
+     * @param callable $callable
+     * @return mixed
+     */
+    public function run(callable $callable)
+    {
+        $arguments = func_get_args();
+        array_shift($arguments);
+
+        $this->start();
+        $result = call_user_func_array($callable, $arguments);
+        $this->end();
+
+        return $result;
+    }
+
+    /**
      * Returns a human readable memory size
      *
      * @param   int    $size
