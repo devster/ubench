@@ -18,10 +18,15 @@
 
     "extra": {
         "branch-alias": {
-            "dev-master": "1.2.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     },
+
     "require-dev": {
         "phpunit/phpunit": "*"
+    },
+  
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
