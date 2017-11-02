@@ -167,11 +167,13 @@ class Ubench
         return sprintf($format, $time, $unit);
     }
 
-    public function wasEnd() {
+    public function wasEnd()
+    {
         return isset($this->end_time);
     }
 
-    public function wasStart() {
+    public function wasStart()
+    {
         return isset($this->start_time);
     }
 }
