@@ -119,7 +119,7 @@ class UbenchTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException LogicException
      */
     public function testEndException()
     {
@@ -128,7 +128,7 @@ class UbenchTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException LogicException
      */
     public function testGetTimeExceptionWithoutStart()
     {
@@ -137,7 +137,7 @@ class UbenchTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException LogicException
      */
     public function testGetTimeExceptionWithoutEnd()
     {

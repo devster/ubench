@@ -49,7 +49,9 @@ class Ubench
     public function end()
     {
         if (!$this->hasStarted())
-            throw new Exception("You must call start()");
+        {
+            throw new LogicException("You must call start()");
+        }
 
         $this->end_time = microtime(true);
         $this->memory_usage = memory_get_usage(true);
@@ -66,10 +68,14 @@ class Ubench
     public function getTime($raw = false, $format = null)
     {
         if (!$this->hasStarted())
-            throw new Exception("You must call start()");
+        {
+            throw new LogicException("You must call start()");
+        }
 
         if (!$this->hasEnded())
-            throw new Exception("You must call end()");
+        {
+            throw new LogicException("You must call end()");
+        }
 
         $elapsed = $this->end_time - $this->start_time;
 
