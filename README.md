@@ -1,4 +1,4 @@
-Ubench
+Ubench [![Build Status](https://travis-ci.org/devster/ubench.svg?branch=master)](https://travis-ci.org/devster/ubench)
 ======
 
 Ubench is a PHP micro library for benchmark
@@ -17,7 +17,7 @@ Add this to your composer.json
 ```json
 {
     "require": {
-        "devster/ubench": "1.1.*-dev"
+        "devster/ubench": "~2.0.0"
     }
 }
 ```
