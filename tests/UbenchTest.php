@@ -103,9 +103,9 @@ class UbenchTest extends TestCase
     {
         $bench = new Ubench();
 
-        $this->assertFalse($bench->wasStart());
+        $this->assertFalse($bench->hasStarted());
         $bench->start();
-        $this->assertTrue($bench->wasStart());
+        $this->assertTrue($bench->hasStarted());
     }
 
     public function testWasEnd()
@@ -113,8 +113,36 @@ class UbenchTest extends TestCase
         $bench = new Ubench();
         $bench->start();
 
-        $this->assertFalse($bench->wasEnd());
+        $this->assertFalse($bench->hasEnded());
         $bench->end();
-        $this->assertTrue($bench->wasEnd());
+        $this->assertTrue($bench->hasEnded());
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testEndException()
+    {
+        $bench = new Ubench();
+        $bench->end();
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testGetTimeExceptionWithoutStart()
+    {
+        $bench = new Ubench();
+        $bench->getTime();
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testGetTimeExceptionWithoutEnd()
+    {
+        $bench = new Ubench();
+        $bench->start();
+        $bench->getTime();
     }
 }
