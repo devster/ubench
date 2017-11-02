@@ -1,8 +1,10 @@
 <?php
 
-require __DIR__.'/../src/Ubench.php';
+require __DIR__.'/../vendor/autoload.php';
 
-class UbenchTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class UbenchTest extends TestCase
 {
     public function sizeProvider()
     {
@@ -95,5 +97,24 @@ class UbenchTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($bench->getTime());
         $this->assertNotNull($bench->getMemoryUsage());
         $this->assertNotNull($bench->getMemoryPeak());
+    }
+
+    public function testWasStart()
+    {
+        $bench = new Ubench();
+
+        $this->assertFalse($bench->wasStart());
+        $bench->start();
+        $this->assertTrue($bench->wasStart());
+    }
+
+    public function testWasEnd()
+    {
+        $bench = new Ubench();
+        $bench->start();
+
+        $this->assertFalse($bench->wasEnd());
+        $bench->end();
+        $this->assertTrue($bench->wasEnd());
     }
 }
