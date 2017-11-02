@@ -22,6 +22,10 @@
         }
     },
 
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+  
     "scripts": {
         "test": "vendor/bin/phpunit"
     }

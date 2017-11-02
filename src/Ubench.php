@@ -44,9 +44,15 @@ class Ubench
      * Sets end microtime
      *
      * @return void
+     * @throws Exception
      */
     public function end()
     {
+        if (!$this->hasStarted())
+        {
+            throw new LogicException("You must call start()");
+        }
+
         $this->end_time = microtime(true);
         $this->memory_usage = memory_get_usage(true);
     }
@@ -54,12 +60,23 @@ class Ubench
     /**
      * Returns the elapsed time, readable or not
      *
-     * @param  boolean $readable Whether the result must be human readable
-     * @param  string  $format   The format to display (printf format)
-     * @return string|float
+     * @param bool $raw
+     * @param  string $format The format to display (printf format)
+     * @return float|string
+     * @throws Exception
      */
     public function getTime($raw = false, $format = null)
     {
+        if (!$this->hasStarted())
+        {
+            throw new LogicException("You must call start()");
+        }
+
+        if (!$this->hasEnded())
+        {
+            throw new LogicException("You must call end()");
+        }
+
         $elapsed = $this->end_time - $this->start_time;
 
         return $raw ? $elapsed : self::readableElapsedTime($elapsed, $format);
@@ -165,5 +182,15 @@ class Ubench
         }
 
         return sprintf($format, $time, $unit);
+    }
+
+    public function hasEnded()
+    {
+        return isset($this->end_time);
+    }
+
+    public function hasStarted()
+    {
+        return isset($this->start_time);
     }
 }
