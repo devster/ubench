@@ -43,7 +43,7 @@ class Ubench
     /**
      * Sets end microtime
      *
-     * @return void
+     * @return $this
      * @throws Exception
      */
     public function end()
@@ -55,6 +55,7 @@ class Ubench
 
         $this->end_time = microtime(true);
         $this->memory_usage = memory_get_usage(true);
+        return $this;
     }
 
     /**
