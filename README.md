@@ -6,6 +6,8 @@ Ubench is a PHP micro library for benchmark
 Installation
 ------------
 
+Note: If you are looking for this package for laravel application then install it from here [Benchmark](https://packagist.org/packages/asad/benchmark)
+
 ### Old school ###
 
 require `src/Ubench.php` in your project.
