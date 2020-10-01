@@ -1,6 +1,6 @@
 {
-    "name": "devster/ubench",
-    "description": "Micro PHP library for benchmarking",
+    "name": "i am devster/ubench",
+    "description": "Micro PHP library for benchmarking on new amazing project",
     "keywords": ["benchmark", "bench", "library", "micro"],
     "homepage": "https://github.com/devster/ubench",
     "type": "library",
