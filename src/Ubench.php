@@ -33,11 +33,12 @@ class Ubench
     /**
      * Sets start microtime
      *
-     * @return void
+     * @return $this
      */
     public function start()
     {
         $this->start_time = microtime(true);
+        return $this;
     }
 
     /**
@@ -185,11 +186,17 @@ class Ubench
         return sprintf($format, $time, $unit);
     }
 
+    /**
+     * @return bool
+     */
     public function hasEnded()
     {
         return isset($this->end_time);
     }
 
+    /**
+     * @return bool
+     */
     public function hasStarted()
     {
         return isset($this->start_time);
